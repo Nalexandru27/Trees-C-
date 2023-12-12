@@ -68,6 +68,10 @@ public:
 		left = nullptr;
 		right = nullptr;
 	}
+	~BstNode() {
+		delete left;
+		delete right;
+	}
 };
 BstNode* getNewNode(int data) {
 	BstNode* newNode = new BstNode(data);
@@ -92,6 +96,43 @@ bool Search(BstNode* root, int data) {
 	else if (data <= root->data) return Search(root->left, data);
 	else return Search(root->right, data);
 }
+//iterative function
+int findMinIterative(BstNode* root) {
+	if (root == nullptr) {
+		throw exception("Error: Tree is empty");
+	}
+	while (root->left != nullptr) { //we can use root because it's a pointer on this function stack
+		root = root->left;
+	}
+	return root->data;
+}
+int findMinRecursive(BstNode* root) {
+	if (root == nullptr) {
+		throw exception("Error: Tree is empty");
+	}
+	else if (root->left == nullptr) {
+		return root->data;
+	}
+	return findMinRecursive(root->left);
+}
+int findMaxIterative(BstNode* root) {
+	if (root == nullptr) {
+		throw exception("Error: Tree is empty");
+	}
+	while (root->right != nullptr) {
+		root = root->right;
+	}
+	return root->data;
+}
+int findMaxRecursive(BstNode* root) {
+	if (root == nullptr) {
+		throw exception("Error: Tree is empty");
+	}
+	else if (root->right == nullptr) {
+		return root->data;
+	}
+	return findMaxRecursive(root->right);
+}
 int main() {
 	BstNode* rootPtr;
 	rootPtr = nullptr;
@@ -106,4 +147,9 @@ int main() {
 	cin >> number;
 	if (Search(rootPtr, number) == true) cout << "Found" << endl;
 	else cout << "Not Found" << endl;
+	cout << "Min value in this tree is (iterative way): " << findMinIterative(rootPtr) << endl;
+	cout << "Max value in this tree is (iterative way): " << findMaxIterative(rootPtr) << endl;
+	cout << "Min value in this tree is (recursive way): " << findMinRecursive(rootPtr) << endl;
+	cout << "Max value in this tree is (recursive way): " << findMaxRecursive(rootPtr) << endl;
+	cout << "-----------End of program-----------" << endl;
 }
